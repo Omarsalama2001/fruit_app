@@ -12,7 +12,7 @@ final class AuthInitial extends AuthState {}
 class AuthLoadingState extends AuthState {}
 
 class AuthSuccessState extends AuthState {
-  final User user;
+  final UserEntity user;
 
   const AuthSuccessState({required this.user});
   @override
@@ -24,6 +24,25 @@ class AuthErrorState extends AuthState {
   const AuthErrorState({
     required this.errorMessage,
   });
+  @override
+  List<Object> get props => [];
+}
+
+class AdditionalUserDataSuccessState extends AuthState {
+  const AdditionalUserDataSuccessState();
+  @override
+  List<Object> get props => [];
+}
+
+class AdditionalUserDataErrorState extends AuthState {
+  final String errorMessage;
+  const AdditionalUserDataErrorState({required this.errorMessage});
+  @override
+  List<Object> get props => [];
+}
+
+class AdditionalUserDataLoadingState extends AuthState {
+  const AdditionalUserDataLoadingState();
   @override
   List<Object> get props => [];
 }

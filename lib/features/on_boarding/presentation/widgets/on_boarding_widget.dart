@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fruit_e_commerce/core/app_colors.dart';
+import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/widgets/custom_skip_button_widget.dart';
 import 'package:fruit_e_commerce/core/widgets/main_button_widget.dart';

@@ -1,0 +1,50 @@
+{
+    "categories": [
+      {
+        "name": "Category 1",
+        "subcategories": [
+          {
+            "name": "Subcategory 1",
+            "items": [
+              {
+                
+                "name": "Item 1",
+                "price": 19.99
+              },
+              {
+                
+                "name": "Item 2",
+                "price": 25.99
+              }
+            ]
+          },
+          {
+            "name": "Subcategory 2",
+            "items": [
+              {
+                "name": "Item 3",
+                "price": 14.99
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Category 2",
+        "subcategories": [
+          {
+            "id": "subcategory_id_3",
+            "name": "Subcategory 3",
+            "items": [
+              {
+                "id": "item_id_4",
+                "name": "Item 4",
+                "price": 29.99
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

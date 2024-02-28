@@ -15,3 +15,15 @@ class AuthLoginEvent extends AuthEvent {
   @override
   List<Object> get props => [];
 }
+class AuthSaveAdditionalUserDataEvent extends AuthEvent {
+  final String adress;
+  final String phoneNumber;
+  final String? fcmToken;
+  const AuthSaveAdditionalUserDataEvent({
+    required this.adress,
+    required this.phoneNumber,
+    required this.fcmToken,
+  });
+  @override
+  List<Object> get props => [];
+}

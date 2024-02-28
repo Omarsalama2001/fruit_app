@@ -7,7 +7,7 @@ class UserLoginUseCase {
   final AuthRepository authRepository;
 
   UserLoginUseCase({required this.authRepository});
-  Future<Either<Faliure, User>> login({required bool isGoogle}) {
+  Future<Either<Faliure, UserEntity>> login({required bool isGoogle}) {
     return authRepository.login(isGoogle: isGoogle);
   }
 }

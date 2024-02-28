@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:fruit_e_commerce/core/error/exeptions.dart';
@@ -8,12 +11,15 @@ import 'package:fruit_e_commerce/features/Auth/data/models/user_data_model.dart'
 
 abstract class RemoteDataSource {
   Future<UserModel> loign({required bool isGoogle});
+  Future<Unit> saveAdditionalUserData(String adress, String phoneNumber, String fcmToken);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
   LocalDataSource localDataSource;
+  FirebaseFirestore firestore;
   RemoteDataSourceImpl({
     required this.localDataSource,
+    required this.firestore,
   });
   @override
   Future<UserModel> loign({required bool isGoogle}) async {
@@ -24,7 +30,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (error) {
       throw ServerException(exceptionName: error.toString());
     }
-    final UserModel userModel = UserModel(displayName: userCredential.user!.displayName, email: userCredential.user!.email, photoUrl: userCredential.user!.photoURL, idToken: await userCredential.user!.getIdToken(), accessToken: userCredential.credential!.accessToken);
+   
+    final UserModel userModel = UserModel(displayName: userCredential.user!.displayName, email: userCredential.user!.email, photoUrl: userCredential.user!.photoURL, idToken: await userCredential.user!.getIdToken(), accessToken: userCredential.credential!.accessToken, userId: userCredential.user!.uid);
+    
+    
     return Future.value(userModel);
   }
 
@@ -45,6 +54,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   Future<UserCredential> signInWithFacebook() async {
+    // have some problems here
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login(permissions: ['public_profile']);
 
@@ -53,5 +63,11 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  @override
+  Future<Unit> saveAdditionalUserData(String adress, String phoneNumber, String fcmToken) {
+    firestore.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set(<String, dynamic>{'address': adress, 'fcmToken': fcmToken, 'phoneNumber': phoneNumber});
+    return Future.value(unit);
   }
 }

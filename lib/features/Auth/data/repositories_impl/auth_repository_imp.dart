@@ -11,12 +11,23 @@ class AuthRepositoryImpl extends AuthRepository {
     required this.remoteDataSource,
   });
   @override
-  Future<Either<Faliure, User>> login({required bool isGoogle}) async {
+  Future<Either<Faliure, UserEntity>> login({required bool isGoogle}) async {
     try {
       UserModel userModel = await remoteDataSource.loign(isGoogle: isGoogle);
       return Future.value(Right(userModel));
     } catch (exception) {
-      return Left(ServerFaliure(exceptionName: exception.toString()));
+      return Left(ServerFaliure(faliureName: exception.toString()));
     }
   }
+
+  @override
+  Future<Either<Faliure, Unit>> saveAdditionalUserData({required String adress, required String phoneNumber, required String? fcmToken}) {
+    try{
+    remoteDataSource.saveAdditionalUserData(adress, phoneNumber, fcmToken!);
+    return Future.value (const Right(unit));
+    }catch(exception){
+      return Future.value(Left(ServerFaliure(faliureName: exception.toString())));
+    }
+  }
+
 }
