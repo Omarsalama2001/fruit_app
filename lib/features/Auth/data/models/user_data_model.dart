@@ -15,6 +15,7 @@ class UserModel extends UserEntity {
     String? address,
     String? phoneNumber,
     required String? userId,
+    
   }) : super(displayName: displayName, email: email, photoUrl: photoUrl, address: address, phoneNumber: phoneNumber, idToken: idToken, accessToken: accessToken, fcmToken: fcmToken, userId: userId);
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

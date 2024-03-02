@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fruit_e_commerce/core/network/network_info.dart';
 import 'package:fruit_e_commerce/features/Auth/data/data_sources/local_data_source/local_data_source.dart';
@@ -22,7 +23,7 @@ Future<void> init() async {
 //!features - signIn
 
 //Bloc
-  sl.registerFactory(() => AuthBloc(sl(),sl()));
+  sl.registerFactory(() => AuthBloc(sl(), sl()));
   sl.registerFactory(() => HomeBloc(getAllCategoriesUSeCase: sl(), firebaseMessaging: sl()));
 
 //UseCases
@@ -34,7 +35,7 @@ Future<void> init() async {
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(homeRemoteDataSource: sl(), networkInfo: sl()));
 
 //DataSource
-  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(localDataSource: sl(), firestore: sl()));
+  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(localDataSource: sl(), firestore: sl(), firebaseAuth: sl()));
   sl.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(firestore: sl()));
 //Core
@@ -43,10 +44,16 @@ Future<void> init() async {
 //External
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+ 
   // ignore: unused_local_variable
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   sl.registerLazySingleton(() => firebaseMessaging);
+
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  sl.registerSingleton(() => firebaseAuth);
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   sl.registerLazySingleton<FirebaseFirestore>(() => firestore);
+
   sl.registerLazySingleton(() => InternetConnectionChecker());
 }

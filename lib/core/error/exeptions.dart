@@ -4,3 +4,6 @@ class ServerException implements Exception {
     required this.exceptionName,
   });
 }
+class EmailNotVerifiedException implements Exception{
+  
+}

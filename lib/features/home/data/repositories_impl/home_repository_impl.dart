@@ -22,11 +22,11 @@ class HomeRepositoryImpl extends HomeRepository {
         final List<CategoryModel> categories = await homeRemoteDataSource.getAllCategories();
       return Right(categories);
       }catch (exceptionName) {
-        return  Left(ServerFaliure(faliureName:exceptionName.toString()));
+        return  Left(ServerFaliure());
       }
     }
     else{
-      return const Left(ConnectionFaliure());
+      return  Left(ConnectionFaliure());
     }
    
     

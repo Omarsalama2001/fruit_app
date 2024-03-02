@@ -5,5 +5,6 @@ import 'package:fruit_e_commerce/features/Auth/domain/entities/user_entity.dart'
 
 abstract class AuthRepository {
   Future<Either<Faliure, UserEntity>> login({required bool isGoogle});
+  Future<Either<Faliure, UserEntity>> loginWithEmailAndPassword(String email,String password);
   Future<Either<Faliure, Unit>> saveAdditionalUserData({required String adress, required String phoneNumber, required String? fcmToken});
 }

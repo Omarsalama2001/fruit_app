@@ -24,7 +24,7 @@ class HomeErrorState extends HomeState {
     required this.faliure,
   });
   @override
-  List<Object> get props => [faliure.faliureName];
+  List<Object> get props => [];
 }
 
 class HomeSuccessState extends HomeState {

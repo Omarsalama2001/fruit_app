@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_e_commerce/core/error/faliure.dart';
 import 'package:fruit_e_commerce/core/utils/size_config.dart';
-import 'package:fruit_e_commerce/core/widgets/loading_widget.dart';
 import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
 import 'package:fruit_e_commerce/features/home/presentation/pages/Home_shimmer_page.dart';
 import 'package:fruit_e_commerce/features/home/presentation/widgets/home_widgets/app_bar_widgets/app_bar_widget.dart';
