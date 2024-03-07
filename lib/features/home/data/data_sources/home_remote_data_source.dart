@@ -4,7 +4,6 @@ import 'package:fruit_e_commerce/features/home/data/models/category_model.dart';
 import 'package:fruit_e_commerce/features/home/data/models/item_model.dart';
 import 'package:fruit_e_commerce/features/home/data/models/sub_category_model.dart';
 
-
 abstract class HomeRemoteDataSource {
   Future<List<CategoryModel>> getAllCategories();
 }
@@ -18,8 +17,9 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   @override
   Future<List<CategoryModel>> getAllCategories() async {
     List<CategoryModel> categories = [];
-    CollectionReference<Map<String, dynamic>> collectionReference = firestore.collection('category');
+
     try {
+      CollectionReference<Map<String, dynamic>> collectionReference = firestore.collection('category');
       QuerySnapshot categorySnapShot = await collectionReference.get();
 
       for (QueryDocumentSnapshot categoryDoc in categorySnapShot.docs) {
@@ -39,7 +39,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
       }
       return categories;
     } catch (error) {
-      throw ServerException(exceptionName: error.toString());
+      throw ServerException();
     }
   }
 }

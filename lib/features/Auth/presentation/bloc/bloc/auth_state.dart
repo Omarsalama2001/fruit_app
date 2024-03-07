@@ -25,7 +25,22 @@ class AuthErrorState extends AuthState {
     required this.errorMessage,
   });
   @override
+  List<Object> get props => [errorMessage];
+}
+
+class SendVerificationOrResetEmailSuccessState extends AuthState {
+  final String successMessage;
+  const SendVerificationOrResetEmailSuccessState(
+    this.successMessage,
+  );
+  @override
   List<Object> get props => [];
+}
+
+class SendVerificationOrResetEmailErrorState extends AuthState {
+  final String errorMessage;
+
+  const SendVerificationOrResetEmailErrorState(this.errorMessage);
 }
 
 class AdditionalUserDataSuccessState extends AuthState {

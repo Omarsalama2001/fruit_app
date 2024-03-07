@@ -38,7 +38,7 @@ class ItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(SizeConfig.screenHeight! * 0.01),
                       child: CachedNetworkImage(
                         imageUrl: item.imageUrl,
-                        placeholder: (context, url) => const Center(child:  CircularProgressIndicator()),
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) => const Center(child: Text("no image")),
                         fit: BoxFit.cover,
                       )),
@@ -53,7 +53,9 @@ class ItemWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(SizeConfig.screenHeight! * 0.5),
                           color: Colors.white,
                         ),
-                        child: const FavouriteIconWidget()),
+                        child: FavouriteIconWidget(
+                          item: item,
+                        )),
                   ),
                 ],
               )),

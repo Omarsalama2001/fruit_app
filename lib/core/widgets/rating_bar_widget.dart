@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 
 import 'package:fruit_e_commerce/core/utils/size_config.dart';
 
@@ -12,6 +13,6 @@ class RatingBarWidget extends StatelessWidget {
   final double itemRate;
   @override
   Widget build(BuildContext context) {
-    return RatingBar.builder(ignoreGestures: true, itemSize: SizeConfig.defaultSize! * 1.5, glowColor: Colors.amber[2], itemCount: 5, updateOnDrag: true, initialRating: itemRate, allowHalfRating: true, itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber), onRatingUpdate: (rate) {});
+    return RatingBar.builder(ignoreGestures: true, itemSize: SizeConfig.defaultSize! * 1.5, glowColor: AppColors.secondColor, itemCount: 5, updateOnDrag: true, initialRating: itemRate, allowHalfRating: true, itemBuilder: (context, index) => const Icon(Icons.star, color: Colors.amber), onRatingUpdate: (rate) {});
   }
 }

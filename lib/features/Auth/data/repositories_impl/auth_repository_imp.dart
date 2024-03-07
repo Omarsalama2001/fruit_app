@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:fruit_e_commerce/core/error/exeptions.dart';
 import 'package:fruit_e_commerce/core/error/faliure.dart';
 import 'package:fruit_e_commerce/core/network/network_info.dart';
@@ -16,38 +15,70 @@ class AuthRepositoryImpl extends AuthRepository {
     required this.networkInfo,
   });
   @override
-  Future<Either<Faliure, UserEntity>> login({required bool isGoogle}) async {
+  Future<Either<Failure, UserEntity>> login({required bool isGoogle}) async {
     try {
       UserModel userModel = await remoteDataSource.login(isGoogle: isGoogle);
       return Future.value(Right(userModel));
     } catch (exception) {
-      return Left(ServerFaliure());
+      return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Faliure, UserEntity>> loginWithEmailAndPassword(String email, String password) async {
+  Future<Either<Failure, UserEntity>> loginWithEmailAndPassword(String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
         UserModel userModel = await remoteDataSource.loginWithEmailAndPassword(email, password);
         return Future.value(Right(userModel));
       } on EmailNotVerifiedException {
-        return Left(EmailNotVerifiedFaliure());
+        return Left(EmailNotVerifiedFailure());
       } on ServerException {
-        return Left(ServerFaliure());
+        return Left(ServerFailure());
+      } on AuthException catch (error) {
+        return Left(AuthFailure(errorCode: error.errorCode));
       }
     } else {
-      return Left(ConnectionFaliure());
+      return Left(ConnectionFailure());
     }
   }
 
   @override
-  Future<Either<Faliure, Unit>> saveAdditionalUserData({required String adress, required String phoneNumber, required String? fcmToken}) {
+  Future<Either<Failure, Unit>> sendEmailVerification() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.sendEmailVerification());
+      } on ServerException {
+        return Left(ServerFailure());
+      } on AuthException catch (error) {
+        return Left(AuthFailure(errorCode: error.errorCode));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword({required String email}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.sendPasswordResetEmail(email: email));
+      } on ServerException {
+        return Left(ServerFailure());
+      } on AuthException catch (error) {
+        return Left(AuthFailure(errorCode: error.errorCode));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveAdditionalUserData({required String adress, required String phoneNumber, required String? fcmToken}) {
     try {
       remoteDataSource.saveAdditionalUserData(adress, phoneNumber, fcmToken!);
       return Future.value(const Right(unit));
     } catch (exception) {
-      return Future.value(Left(ServerFaliure()));
+      return Future.value(Left(ServerFailure()));
     }
   }
 }

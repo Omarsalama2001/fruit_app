@@ -9,23 +9,21 @@ sealed class HomeState extends Equatable {
   get categories => null;
 }
 
-final class HomeInitial extends HomeState {
- 
-}
+final class HomeInitial extends HomeState {}
 
-class HomeLoadingState extends HomeState {
-  
-}
+class HomeLoadingState extends HomeState {}
 
 // ignore: must_be_immutable
 class HomeErrorState extends HomeState {
-  Faliure faliure;
+  Failure failure;
   HomeErrorState({
-    required this.faliure,
+    required this.failure,
   });
   @override
   List<Object> get props => [];
 }
+
+
 
 class HomeSuccessState extends HomeState {
   final List<Category> categories;

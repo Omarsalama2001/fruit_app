@@ -9,7 +9,7 @@ class UserLoginWithEmailAndPasswordUseCase {
     required this.authRepository,
   });
 
-  Future<Either<Faliure, UserEntity>> call(String email, String password) {
+  Future<Either<Failure, UserEntity>> call({required String email, required String password}) {
     return authRepository.loginWithEmailAndPassword(email, password);
   }
 }

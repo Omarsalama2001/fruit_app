@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:fruit_e_commerce/core/error/exeptions.dart';
 import 'package:fruit_e_commerce/features/Auth/data/data_sources/local_data_source/local_data_source.dart';
 import 'package:fruit_e_commerce/features/Auth/data/models/user_data_model.dart';
@@ -12,6 +11,8 @@ abstract class RemoteDataSource {
   Future<UserModel> login({required bool isGoogle});
   Future<UserModel> loginWithEmailAndPassword(String email, String password);
   Future<Unit> saveAdditionalUserData(String adress, String phoneNumber, String fcmToken);
+  Future<Unit> sendEmailVerification();
+  Future<Unit> sendPasswordResetEmail({required String email});
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -31,7 +32,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       userCredential = isGoogle ? await signInWithGoogle() : await signInWithFacebook();
       localDataSource.saveToken(await userCredential.user!.getIdToken());
     } catch (error) {
-      throw ServerException(exceptionName: error.toString());
+      throw ServerException();
     }
     final UserModel userModel = UserModel(displayName: userCredential.user!.displayName, email: userCredential.user!.email, photoUrl: userCredential.user!.photoURL, idToken: await userCredential.user!.getIdToken(), accessToken: userCredential.credential!.accessToken, userId: userCredential.user!.uid);
 
@@ -40,18 +41,46 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   @override
   Future<UserModel> loginWithEmailAndPassword(String email, String password) async {
-    UserCredential userCredential;
-    final UserModel userModel;
+    final UserCredential userCredential;
     try {
       userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user!.emailVerified) {
-        userModel = UserModel(displayName: userCredential.user!.displayName, email: userCredential.user!.email, photoUrl: userCredential.user!.photoURL, idToken: await userCredential.user!.getIdToken(), accessToken: userCredential.credential!.accessToken, userId: userCredential.user!.uid);
-        return userModel;
+        localDataSource.saveToken(await userCredential.user!.getIdToken());
+        // ignore: prefer_const_constructors
+        final UserModel userModel = UserModel(displayName: "userCredential.user!.displayName", email: " userCredential.user!.email", photoUrl: "userCredential.user!.photoURL", idToken: "userCredential.user!.getIdToken()", accessToken: "userCredential.credential!.accessToken", userId: "userCredential.user!.uid");
+        return Future.value(userModel);
       } else {
         throw EmailNotVerifiedException();
       }
-    } catch (error) {
-      throw ServerException(exceptionName: error.toString());
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(errorCode: error.code);
+    } on FirebaseException {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> sendEmailVerification() async {
+    try {
+      await firebaseAuth.currentUser!.sendEmailVerification();
+      firebaseAuth.currentUser!.reload();
+      return unit;
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(errorCode: error.code);
+    } on FirebaseException {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> sendPasswordResetEmail({required String email}) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return Future.value(unit);
+    } on FirebaseAuthException catch (error) {
+      throw AuthException(errorCode: error.code);
+    } on FirebaseException {
+      throw ServerException();
     }
   }
 

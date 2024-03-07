@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_e_commerce/core/error/faliure.dart';
+import 'package:fruit_e_commerce/core/error/faliure.dart';
+import 'package:fruit_e_commerce/core/error/faliure.dart';
 import 'package:fruit_e_commerce/core/utils/size_config.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
 import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
 import 'package:fruit_e_commerce/features/home/presentation/pages/Home_shimmer_page.dart';
 import 'package:fruit_e_commerce/features/home/presentation/widgets/home_widgets/app_bar_widgets/app_bar_widget.dart';
 import 'package:fruit_e_commerce/features/home/presentation/widgets/home_widgets/category_widgets/category_widget.dart';
 import 'package:fruit_e_commerce/features/home/presentation/widgets/home_widgets/tap_bar_widget.dart';
+
+import '../../blocs/bloc/home_bloc.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
@@ -41,10 +50,10 @@ class _HomePageWidgetState extends State<HomePageWidget> with SingleTickerProvid
             const AppBarWidget(),
             BlocConsumer<HomeBloc, HomeState>(
               listener: (context, state) {
-                if (state is HomeErrorState && state.faliure.runtimeType == ConnectionFaliure) {
+                if (state is HomeErrorState && state.failure.runtimeType == ConnectionFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: const Duration(days: 365),
-                      content: Text(state.faliure.faliureName),
+                      content: Text("state.Failure.FailureName"),
                       action: SnackBarAction(
                         label: "Retry",
                         onPressed: (() {
@@ -85,7 +94,7 @@ class _HomePageWidgetState extends State<HomePageWidget> with SingleTickerProvid
                           ]))
                     ],
                   );
-                } else if (state is HomeErrorState && state.faliure.runtimeType == ConnectionFaliure) {
+                } else if (state is HomeErrorState && state.failure.runtimeType == ConnectionFailure) {
                   return Center(
                     child: Image.asset("assets/images/No connection_image.png"),
                   );

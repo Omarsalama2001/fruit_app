@@ -8,7 +8,7 @@ class GetFavouriteItemsUseCase {
   GetFavouriteItemsUseCase({
     required this.favouriteRepository,
   });
-  Future<Either<List<Item>, Faliure>> call() {
-    return favouriteRepository.getFavouriteItems();
+  Future<Either<Failure, List<Item>>> call(String userId) {
+    return favouriteRepository.getFavouriteItems(userId);
   }
 }

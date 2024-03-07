@@ -38,7 +38,9 @@ class SettingsPage extends StatelessWidget {
                 radius: context.getDefaultSize() * 5.5,
                 child: CircleAvatar(
                   radius: context.getDefaultSize() * 5,
-                  backgroundImage: CachedNetworkImageProvider(FirebaseAuth.instance.currentUser!.photoURL!,),
+                  backgroundImage: CachedNetworkImageProvider(
+                    FirebaseAuth.instance.currentUser!.photoURL!,
+                  ),
                 ),
               ),
               SizedBox(
